@@ -1,0 +1,389 @@
+<meta charset='utf-8'>
+<meta name='color-schema' content='dark'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, interactive-widget=resizes-content'>
+<link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1752/1752572.png">
+<title>Jacaré Chat</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box }
+  Loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    border: 4px solid rgb(57, 56, 33);
+    background-color: rgb(255, 119, 115);
+    Icon {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50% 50% 13% 50%;
+      border: 4px solid rgb(57, 56, 33);
+      background-color: rgb(134, 74, 22);
+      animation: rotate 1s ease-in-out forwards, born 1s ease-out forwards;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+  @keyframes born { 0% { border-radius: 50% } 100% { border-radius: 50% 50% 15% 50% } }
+  @keyframes rotate { 0% { transform: scale(.1) rotate(0deg) } 100% { transform: scale(1.5) rotate(360deg) } }
+  App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    border: 4px solid rgb(50, 40, 25);
+    background-color: rgb(50, 40, 25);
+    padding: 10px;
+    padding-top: 0;
+    overflow: hidden;
+    Header {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      width: calc(100% + 20px);
+      height: 70px;
+      background-color: rgb(255, 119, 115);
+      border-bottom: 4px solid rgb(50, 40, 25);
+      Avatar {
+        content: '';
+        display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50% 50% 13% 50%;
+        border: 2px solid rgb(57, 56, 33);
+        background-color: rgb(134, 74, 22);
+        animation: rotate 1s ease-in-out forwards, born 1s ease-out forwards;
+        background-size: cover; /* Redimensiona a imagem para cobrir toda a div */
+        background-position: center; /* Posiciona a imagem no centro da div */
+      }
+    }
+    Chat {
+      width: 100%;
+      max-width: 100%;
+      flex: 1;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      position: relative;
+      &::-webkit-scrollbar { display: none };
+      display: flex;
+      Messages {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-direction: column;
+        gap: 3px;
+        Sended {
+          align-self: flex-end;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          justify-content: flex-end;
+          gap: 10px;
+          max-width: 60%;
+          Peer {
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: rgb(105, 94, 46);
+              background-size: cover; /* Redimensiona a imagem para cobrir toda a div */
+              background-position: center; /* Posiciona a imagem no centro da div */
+          }
+          Message {
+            display: inline;
+            padding: 10px 15px;
+            font-size: 15px;
+            min-width: 40px;
+            min-height: 40px;
+            overflow-wrap: break-word;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: calc(100% - 30px);
+            border-radius: 20px 20px 5px 20px;
+            background-color: rgb(254, 57, 54);
+            color: rgb(57, 56, 33);
+            align-items: center;
+          }
+        }
+        Received {
+          align-self: flex-start;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          justify-content: flex-start;
+          gap: 10px;
+          max-width: 60%;
+          Peer {
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: rgb(254, 57, 54);
+              background-size: cover; /* Redimensiona a imagem para cobrir toda a div */
+              background-position: center; /* Posiciona a imagem no centro da div */
+          }
+          Message {
+            display: inline;
+            padding: 10px 15px;
+            font-size: 15px;
+            min-width: 40px;
+            min-height: 40px;
+            overflow-wrap: break-word;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: calc(100% - 30px);
+            border-radius: 20px 20px 20px 5px;
+            background-color: rgb(105, 94, 46);
+            color: rgb(57, 56, 33);
+            align-items: center;
+          }
+        }
+      }
+    }
+    Prompt {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      gap: 15px;
+      padding-top: 40px;
+      Send {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        background-color: rgb(255, 119, 117);
+        cursor: pointer;
+        svg { opacity: .6 }
+      }
+      input {
+        display: inline;
+        border-radius: 25px;
+        border: 2px solid rgb(255, 119, 117);
+        flex: 1;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 10px 20px;
+        font-size: 15px;
+        min-width: 40px;
+        min-height: 40px;
+        overflow-wrap: break-word;
+        background: transparent;
+        color: rgb(255, 119, 117);
+        &:focus { outline: none }
+      }
+    }
+  }
+</style>
+<Loader id="Loader" inert><Icon id="Icon"></Icon></Loader>
+<App id="App" style="display: none">
+    <Header><Avatar id="Avatar"></Avatar></Header>
+    <Chat>
+    <Messages id="messagesElement"></Messages>
+    </Chat>
+    <Prompt>  
+      <input type="text" id="promptElement">  
+      <Send id="sendButtonElement">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white dark:text-black"><path d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </Send>
+    </Prompt>
+</App>
+<script defer>
+  window.addEventListener('resize', () => console.log(window.visualViewport.height))
+
+  messagesElement.scrollIntoView(false)
+  window.Received = ({ message, avatar }) => {
+    messagesElement.innerHTML += `<Received><Peer style="background-image: url('${avatar}');"></Peer><Message>${message}</Message></Received>`
+    messagesElement.scrollIntoView(false)
+  }
+  window.Sended = message => {
+    messagesElement.innerHTML += `<Sended><Message>${message}</Message><Peer style="background-image: url('${window.avatar}');"></Peer></Sended>`
+    messagesElement.scrollIntoView(false)
+  }
+  sendButtonElement.addEventListener('click', () => {
+    const prompt = (promptElement.value ?? '').trim()
+    if (!prompt && !sendMessage) return
+    Sended(prompt)
+    sendMessage(prompt)
+    promptElement.value = ""
+  })
+</script>
+<script defer>(async () => {
+  const queryString = window.location.search
+  const params = new URLSearchParams(queryString)
+  const type = params.get('type')
+
+  const Start = async () => {
+    try {
+      const { default: YAML } = await import('https://cdn.jsdelivr.net/npm/yaml@2.4.1/+esm')
+      const SIGNALING_URL = 'https://api.github.com/repos/guhcalm/signaling-server/contents/data.yaml'
+      const AUTH_HEADERS = {
+        Authorization: 'token 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',
+        Accept: 'application/vnd.github.v3+json'
+      }
+      const setItem = async (path, value) => {
+        const url = `https://api.github.com/repos/guhcalm/signaling-server/contents/${path}`
+        let sha
+        try { sha = (await (await fetch(url, { headers: AUTH_HEADERS })).json()).sha} 
+        catch {}
+        const headers = { ...AUTH_HEADERS, 'Content-Type': 'application/json' }
+        const body = JSON.stringify({ ...(sha ? { sha } : {}), message: 'Set item', content: btoa(JSON.stringify(value)) })
+        const { ok } = await fetch(url, { headers, body, method: 'PUT' })
+        if (ok) console.log('Novo arquivo adicionado com sucesso!')
+        else console.error(`Erro ao adicionar arquivo: ${await response.text()}`)
+      }
+
+      const getListOfAllItems = async () => {
+        return (await (await fetch('https://api.github.com/repos/guhcalm/signaling-server/contents/', { headers: AUTH_HEADERS })).json())
+          .map(({ path, sha }) => ({ path, sha }))
+      }
+
+      const getItem = async path => {
+        const url = 'https://api.github.com/repos/guhcalm/signaling-server/contents/' + path
+        try {
+          const { content: base64, sha } = await (await fetch(url, { headers: AUTH_HEADERS })).json()
+          return { content: JSON.parse(atob(base64)), sha }
+        } catch {
+          console.log('Não foi encontrada:', path)
+          return false
+        }
+      }
+
+      const removeItem = async (path, sha = false) => {
+        const url = 'https://api.github.com/repos/guhcalm/signaling-server/contents/' + path
+        const body = { message: 'remoção', sha: sha || (await getItem(path)).sha }
+        const response = await fetch(url, { method: 'DELETE', headers: AUTH_HEADERS, body: JSON.stringify(body) })
+        if (response.ok) console.log('Arquivo deletado com sucesso!')
+        else console.error('Erro ao deletar arquivo:', await response.text())
+      }
+
+      const removeAll = async () =>
+        await Promise.all(
+          (await getListOfAllItems())
+            .map(async ({ path, sha }) => await removeItem(path, sha))
+        )
+      
+
+      const API = {
+        getListOfAllItems,
+        getItem,
+        setItem,
+        removeItem,
+        removeAll
+      }
+
+      const iceServers = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }]
+      window.Peer = async () => {
+        const { results: [{ name: { last: id } }] } = await (await fetch(`https://randomuser.me/api/`)).json()
+        const connection = new RTCPeerConnection({ iceServers })
+        const dataChannel = connection.createDataChannel('channel')
+
+        const avatar = (await fetch(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${id}`,)).url
+        window.avatar = avatar
+        ;Icon.style = `background-image: url('${avatar}');`
+        ;Avatar.style = `background-image: url('${avatar}');`
+        
+        connection.ondatachannel = ({ channel }) => {
+          channel.onopen = e => {
+            console.log('Conectado ao Relay, yesss')
+            //dataChannel.send(`Oie, bem vindo`)
+            Loader.style="display: none"
+            App.style=""
+            window.sendMessage = (message) => dataChannel.send(JSON.stringify({ avatar, message }))
+          }
+          channel.onmessage = ({ data }) => window.Received(JSON.parse(data))
+        }
+        const offer = await connection.createOffer()
+        await connection.setLocalDescription(offer)
+        const iceCandidates = new Set()
+        connection.onicecandidate = ({ candidate }) => candidate && iceCandidates.add(JSON.stringify(candidate))
+        await new Promise(res => setTimeout(res, 300))
+        const offer_description = `OFFER ${id}`
+        const payload = { offer, ice: [...iceCandidates].map(c => JSON.parse(c)) }
+        await API.removeItem(id)
+        await API.setItem(offer_description, payload)
+        const interval = setInterval(async () => {
+          const signal = await API.getItem(`ANSWER ${id}`)
+          if (!signal) return
+          const { answer, ice } = signal.content
+          clearInterval(interval)
+          await API.removeItem(`ANSWER ${id}`)
+          connection.setRemoteDescription(answer)
+          for await (const candidate of ice) connection.addIceCandidate(candidate)
+        }, 1000)
+      }
+
+      window.Relay = async () => {
+        //await API.removeAll()
+        const conectedPeers = {}
+        const knownOffers = new Set()
+        setInterval(async () => {
+          const Offers = await API.getListOfAllItems()
+          console.log(Offers)
+          const currentOffers = Offers
+            .filter(({ path: offer_description }) => (!knownOffers.has(offer_description)) && offer_description.includes('OFFER'))
+          console.log(currentOffers)
+          for await (const { path: offer_description } of currentOffers) {
+            knownOffers.add(offer_description)
+            const peerId = offer_description.split(' ')[1]
+            const offerdata = (await API.getItem(offer_description))
+            if (!offerdata) return 
+            const { content: { offer, ice }, sha } = (await API.getItem(offer_description))
+            console.log({ offer_description, peerId, offer, ice })
+            await API.removeItem(offer_description, sha)
+            const connection = new RTCPeerConnection({ iceServers })
+            const dataChannel = connection.createDataChannel('channel') 
+            connection.ondatachannel = ({ channel }) => {
+              channel.onopen = async e => {
+                console.log(`Peer ${peerId} se conectou`)
+                conectedPeers[peerId] = { connection, dataChannel }
+                const avatar = (await fetch(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=Relay`,)).url
+                Icon.style = `background-image: url('${avatar}');`
+                try { await API.removeItem(`ANSWER ${peerId}`) }
+                catch {}
+              }
+              channel.onclose = e => {
+                console.log(`Peer ${peerId} se desconectou`)
+                connection.close()
+                delete conectedPeers[peerId]
+              }
+              channel.onmessage = ({ data: message }) => Object.entries(conectedPeers).forEach(([id, { dataChannel }]) => id !== peerId && dataChannel.send(message))
+            }
+            const iceCandidates = new Set()
+            await connection.setRemoteDescription(offer)
+            const answer = await connection.createAnswer()
+            await connection.setLocalDescription(answer)
+            connection.onicecandidate = ({ candidate }) => candidate && iceCandidates.add(JSON.stringify(candidate))
+            
+            await new Promise(res => setTimeout(res, 300))
+            for await (const candidate of ice) connection.addIceCandidate(candidate)
+
+            const answer_description = `ANSWER ${peerId}`
+            const payload = { answer, ice: [...iceCandidates].map(c => JSON.parse(c)) }
+            await API.setItem(answer_description, payload)
+              
+            setTimeout(async() => {
+              if (conectedPeers[peerId]) return
+              await API.removeItem(answer_description)
+              console.log(`Falha na conexão com Peer ${peerId}`)
+              connection.close()
+            }, 15000)
+          }
+        }
+        , 1000)
+      }
+      
+      type === 'Relay' ? await Relay() : await Peer()
+    } catch (error) {
+      console.log('Look like some problem, lets try again', { error })
+      setTimeout(async () => await Start(), 500)
+    }
+  }
+
+  await Start()
+
+})()
+</script>
