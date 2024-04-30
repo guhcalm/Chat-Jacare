@@ -220,8 +220,10 @@
     try {
       const { default: YAML } = await import('https://cdn.jsdelivr.net/npm/yaml@2.4.1/+esm')
       const SIGNALING_URL = 'https://api.github.com/repos/guhcalm/signaling-server/contents/data.yaml'
+      const token = atob(await (await fetch('./id')).text())
+  
       const AUTH_HEADERS = {
-        Authorization: 'token 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',
+        Authorization: 'token ' + token,
         Accept: 'application/vnd.github.v3+json'
       }
       const setItem = async (path, value) => {
@@ -237,7 +239,12 @@
       }
 
       const getListOfAllItems = async () => {
-        return (await (await fetch('https://api.github.com/repos/guhcalm/signaling-server/contents/', { headers: AUTH_HEADERS })).json())
+        const timestamp = (new Date()).timestamp
+        const res = await fetch('https://api.github.com/repos/guhcalm/signaling-server/contents/?timestamp='+timestamp, { headers: AUTH_HEADERS })
+        console.log({ res })
+        const json = (await (res).json())
+        console.log({ json })
+        return json
           .map(({ path, sha }) => ({ path, sha }))
       }
 
@@ -291,6 +298,7 @@
             console.log('Conectado ao Relay, yesss')
             //dataChannel.send(`Oie, bem vindo`)
             Loader.style="display: none"
+            console.log("Connected to Relay")
             App.style=""
             window.sendMessage = (message) => dataChannel.send(JSON.stringify({ avatar, message }))
           }
@@ -301,6 +309,7 @@
         const iceCandidates = new Set()
         connection.onicecandidate = ({ candidate }) => candidate && iceCandidates.add(JSON.stringify(candidate))
         await new Promise(res => setTimeout(res, 300))
+            console.log(iceCandidates)
         const offer_description = `OFFER ${id}`
         const payload = { offer, ice: [...iceCandidates].map(c => JSON.parse(c)) }
         await API.removeItem(id)
@@ -309,6 +318,7 @@
           const signal = await API.getItem(`ANSWER ${id}`)
           if (!signal) return
           const { answer, ice } = signal.content
+          console.log(signal)
           clearInterval(interval)
           await API.removeItem(`ANSWER ${id}`)
           connection.setRemoteDescription(answer)
@@ -359,21 +369,25 @@
             connection.onicecandidate = ({ candidate }) => candidate && iceCandidates.add(JSON.stringify(candidate))
             
             await new Promise(res => setTimeout(res, 300))
+            console.log(iceCandidates)
+
             for await (const candidate of ice) connection.addIceCandidate(candidate)
 
             const answer_description = `ANSWER ${peerId}`
             const payload = { answer, ice: [...iceCandidates].map(c => JSON.parse(c)) }
             await API.setItem(answer_description, payload)
               
+            /*
             setTimeout(async() => {
               if (conectedPeers[peerId]) return
               await API.removeItem(answer_description)
               console.log(`Falha na conexão com Peer ${peerId}`)
               connection.close()
-            }, 15000)
+            }, 30000)
+            */
           }
         }
-        , 1000)
+        , 2000)
       }
       
       type === 'Relay' ? await Relay() : await Peer()
